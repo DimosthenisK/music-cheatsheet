@@ -5,7 +5,7 @@ export const notes: note[] = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F
 const majorScaleIntervals = [0, 2, 4, 5, 7, 9, 11];
 const majorScaleComposition: Array<chordType> = ['major', 'minor', 'minor', 'major', 'major', 'minor', 'diminished'];
 const minorScaleIntervals = [0, 2, 3, 5, 7, 8, 10];
-const pentatonicScaleIntervals = [1, 2, 3, 5, 6];
+const pentatonicScaleIntervals = [0, 1, 2, 4, 5];
 
 const dominantScaleChordIntervals = [0, 3, 4, 5];
 
