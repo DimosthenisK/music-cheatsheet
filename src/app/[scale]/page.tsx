@@ -41,7 +41,17 @@ export default function Index() {
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-
+        <p className="text-sm text-gray-600">
+          Made by Dimosthenis Kalaitzis, see{" "}
+          <a
+            href="https://github.com/DimosthenisK/music-cheatsheet"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:text-blue-600 underline"
+          >
+            source
+          </a> ♥
+        </p>
       </footer>
     </div>
   );
