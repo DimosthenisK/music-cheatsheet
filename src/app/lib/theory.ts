@@ -5,7 +5,8 @@ export const notes: note[] = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F
 const majorScaleIntervals = [0, 2, 4, 5, 7, 9, 11];
 const majorScaleComposition: Array<chordType> = ['major', 'minor', 'minor', 'major', 'major', 'minor', 'diminished'];
 const minorScaleIntervals = [0, 2, 3, 5, 7, 8, 10];
-const pentatonicScaleIntervals = [0, 1, 2, 4, 5];
+const majorPentatonicScaleIntervals = [0, 1, 2, 4, 5];
+const minorPentatonicScaleIntervals = [0, 2, 3, 4, 6];
 
 const dominantScaleChordIntervals = [0, 3, 4, 5];
 
@@ -39,7 +40,7 @@ const getScale = (scaleName: string) => {
 const getMajorScale = (root: note) => {
     const rootIndex = notes.indexOf(root);
     const scaleNotes = majorScaleIntervals.map((interval) => notes.at((rootIndex + interval) % notes.length));
-    const pentatonicScaleNotes = scaleNotes.filter((note, index) => pentatonicScaleIntervals.includes(index));
+    const pentatonicScaleNotes = scaleNotes.filter((note, index) => majorPentatonicScaleIntervals.includes(index));
 
     return {
         type: 'major',
@@ -53,7 +54,7 @@ const getMajorScale = (root: note) => {
 const getMinorScale = (root: note) => {
     const rootIndex = notes.indexOf(root);
     const scaleNotes = minorScaleIntervals.map((interval) => notes.at((rootIndex + interval) % notes.length));
-    const pentatonicScaleNotes = scaleNotes.filter((note, index) => pentatonicScaleIntervals.includes(index));
+    const pentatonicScaleNotes = scaleNotes.filter((note, index) => minorPentatonicScaleIntervals.includes(index));
 
     return {
         type: 'minor',
