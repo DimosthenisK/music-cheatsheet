@@ -28,7 +28,7 @@ export default function Home() {
                 <Link
                   key={`minor-${note}`}
                   href={`/${note.replace('#', 'sharp')}m`}
-                  className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded text-center transition duration-300 ease-in-out"
+                  className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-2 rounded text-center transition duration-300 ease-in-out"
                 >
                   {note}m
                 </Link>

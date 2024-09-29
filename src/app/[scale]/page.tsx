@@ -11,36 +11,38 @@ export default function Index() {
     const relativeChords = theory.getScaleChords(relativeScale.name);
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center w-full max-w-4xl">
-        <h1 className="text-6xl font-bold text-center">{scale.name} Scale Overview</h1>
-        <div className="w-full flex justify-center items-center">
-          <PianoKeyboard scaleHighlightedNotes={scale.notes} pentatonicHighlightedNotes={scale.pentatonicNotes} />
-        </div>
-        <div className="w-2/3 flex flex-col gap-8 justify-center items-center">
-          <div className="w-2/3">
-            <h2 className="text-4xl font-bold mb-4">Chords</h2>
-            <ol className="list-decimal pl-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-              {chords.map((chord) => (
-                <li key={chord.chordName}>
-                  <span className={`${chord.isDominant ? 'text-red-500 font-semibold' : ''}`}>{chord.chordName}</span>
-                </li>
-              ))}
-            </ol>
+    <div className="flex flex-col min-h-screen p-4 sm:p-6 md:p-8 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex-grow flex flex-col gap-6 md:gap-8 lg:gap-10">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center">{scale.name} Scale Overview</h1>
+        <div className="w-full overflow-x-auto md:overflow-x-visible flex justify-center">
+          <div className="max-w-full">
+            <PianoKeyboard scaleHighlightedNotes={scale.notes} pentatonicHighlightedNotes={scale.pentatonicNotes} />
           </div>
-          <div className="w-2/3">
-            <h2 className="text-4xl font-bold mb-4">Relative Chords</h2>
-            <ol className="list-decimal pl-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-              {relativeChords.map((chord) => (
-                <li key={chord.chordName}>
-                  <span className={`${chord.isDominant ? 'text-red-500 font-semibold' : ''}`}>{chord.chordName}</span>
+        </div>
+        <div className="w-full flex flex-col md:flex-row gap-6 md:gap-8 max-w-screen-md mx-auto">
+          <div className="w-full">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2 md:mb-4">Chords</h2>
+            <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
+              {chords.map((chord) => (
+                <li key={chord.chordName} className={`${chord.isDominant ? 'text-red-500 font-semibold' : ''}`}>
+                  {chord.chordName}
                 </li>
               ))}
-            </ol>
+            </ul>
+          </div>
+          <div className="w-full">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2 md:mb-4">Relative Chords</h2>
+            <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
+              {relativeChords.map((chord) => (
+                <li key={chord.chordName} className={`${chord.isDominant ? 'text-red-500 font-semibold' : ''}`}>
+                  {chord.chordName}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+      <footer className="mt-8 py-4 text-center">
         <p className="text-sm text-gray-600">
           Made by Dimosthenis Kalaitzis, see{" "}
           <a
