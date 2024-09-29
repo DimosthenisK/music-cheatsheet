@@ -4,10 +4,10 @@ import PianoKeyboard from "../components/PianoKeyboard";
 import { theory } from "../lib";
 
 export default function Index() {
-    const { scale: scaleRoot  } = useParams();
-    const scale = theory.getScale(scaleRoot as string);
-    const relativeScale = theory.getRelativeScale(scaleRoot as string);
-    const chords = theory.getScaleChords(scaleRoot as string);
+    const { scale:scaleName  } = useParams();
+    const scale = theory.getScale(scaleName as string);
+    const chords = theory.getScaleChords(scaleName as string);
+    const relativeScale = theory.getRelativeScale(scaleName as string);
     const relativeChords = theory.getScaleChords(relativeScale.name);
 
   return (

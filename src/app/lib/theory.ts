@@ -104,8 +104,9 @@ const getScaleChords = (scaleName: string) => {
     let scaleChords = [];
     if (scaleNameSafe.endsWith("m")) {
         scaleChords = getMinorScaleChords(scaleNameSafe.slice(0, -1) as note);
+    } else {
+        scaleChords = getMajorScaleChords(scaleNameSafe as note);
     }
-    scaleChords = getMajorScaleChords(scaleNameSafe as note);
 
     return scaleChords.map((chord, index) => {
         return {
