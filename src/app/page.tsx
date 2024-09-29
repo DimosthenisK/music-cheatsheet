@@ -9,23 +9,31 @@ export default function Home() {
         <div className="flex flex-row gap-8 w-full">
           <div className="flex flex-col gap-4 w-1/2">
             <div className="text-2xl font-bold">Major Scales</div>
-            <ul>
+            <div className="grid grid-cols-3 gap-2">
               {notes.map((note) => (
-              <li key={`major-${note}`}>
-                <Link href={`/${note.replace('#', 'sharp')}`}>{note}</Link>
-              </li>
+                <Link
+                  key={`major-${note}`}
+                  href={`/${note.replace('#', 'sharp')}`}
+                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded text-center transition duration-300 ease-in-out"
+                >
+                  {note}
+                </Link>
               ))}
-            </ul>
+            </div>
           </div>
           <div className="flex flex-col gap-4 w-1/2">
             <div className="text-2xl font-bold">Minor Scales</div>
-            <ul>
+            <div className="grid grid-cols-3 gap-2">
               {notes.map((note) => (
-              <li key={`minor-${note}`}>
-                <Link href={`/${note.replace('#', 'sharp')}m`}>{note}m</Link>
-              </li>
+                <Link
+                  key={`minor-${note}`}
+                  href={`/${note.replace('#', 'sharp')}m`}
+                  className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded text-center transition duration-300 ease-in-out"
+                >
+                  {note}m
+                </Link>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
       </main>
