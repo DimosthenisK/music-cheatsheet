@@ -6,9 +6,9 @@ const fullConfig = resolveConfig(tailwindConfig);
 
 interface PianoKeyboardProps {
   HighlightedNotesYellow?: string[]; // Notes to mark in yellow
-  HighlightedNotesGreen?: string[];  // Notes to mark in green
-  width?: number;          // Width of the canvas
-  height?: number;         // Height of the canvas
+  HighlightedNotesGreen?: string[]; // Notes to mark in green
+  width?: number; // Width of the canvas
+  height?: number; // Height of the canvas
   enableOnClick?: boolean;
   drawNoteNames?: boolean;
 }
@@ -34,7 +34,11 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
     }, 500); // Adjust this value for the desired note duration in milliseconds
   };
 
-  const drawKeyboard = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+  const drawKeyboard = (
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number
+  ) => {
     const whiteKeyWidth = width / whiteKeys.length;
     const blackKeyWidth = whiteKeyWidth * 0.4;
     const blackKeyHeight = height * 0.6;
@@ -47,8 +51,8 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
       ctx.fillStyle = HighlightedNotesGreen.includes(note)
         ? fullConfig.theme.colors.green[500]
         : HighlightedNotesYellow.includes(note)
-        ? fullConfig.theme.colors.yellow[400]
-        : 'white';
+          ? fullConfig.theme.colors.yellow[400]
+          : 'white';
       ctx.strokeStyle = 'black';
       ctx.lineWidth = 2;
       ctx.fillRect(x, 0, whiteKeyWidth, height);
@@ -81,17 +85,19 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
       ctx.fillStyle = HighlightedNotesGreen.includes(note)
         ? fullConfig.theme.colors.green[500]
         : HighlightedNotesYellow.includes(note)
-        ? fullConfig.theme.colors.yellow[400]
-        : 'black';
+          ? fullConfig.theme.colors.yellow[400]
+          : 'black';
       ctx.fillRect(x, 0, blackKeyWidth, blackKeyHeight);
       ctx.strokeStyle = 'black';
       ctx.strokeRect(x, 0, blackKeyWidth, blackKeyHeight);
 
       // Draw note label
       if (drawNoteNames) {
-        ctx.fillStyle = HighlightedNotesGreen.includes(note) || HighlightedNotesYellow.includes(note)
-          ? 'black'
-          : 'white';
+        ctx.fillStyle =
+          HighlightedNotesGreen.includes(note) ||
+          HighlightedNotesYellow.includes(note)
+            ? 'black'
+            : 'white';
         ctx.textAlign = 'center';
         ctx.font = 'bold 12px Arial';
         ctx.fillText(note, x + blackKeyWidth / 2, blackKeyHeight - 10);
@@ -135,8 +141,7 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
         // Draw the piano keyboard
         drawKeyboard(ctx, canvas.width, canvas.height);
       });
-    }
-    else {
+    } else {
       drawKeyboard(ctx, canvas.width, canvas.height);
     }
   }, [HighlightedNotesYellow, HighlightedNotesGreen, width, height]);
