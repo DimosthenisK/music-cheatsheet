@@ -16,7 +16,7 @@ export default function Index() {
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center">{scale.name} Scale Overview</h1>
         <div className="w-full overflow-x-auto md:overflow-x-visible flex justify-center">
           <div className="max-w-full">
-            <PianoKeyboard scaleHighlightedNotes={scale.notes} pentatonicHighlightedNotes={scale.pentatonicNotes} />
+            <PianoKeyboard HighlightedNotesYellow={scale.notes} HighlightedNotesGreen={scale.pentatonicNotes} />
           </div>
         </div>
         <div className="w-full flex flex-col md:flex-row gap-6 md:gap-8 max-w-screen-md mx-auto">

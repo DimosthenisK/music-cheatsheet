@@ -1,84 +1,136 @@
-import React from 'react';
-
-interface PianoKeyProps {
-  note: string;
-  isBlack: boolean;
-  scaleHighlighted: boolean;
-  pentatonicHighlighted: boolean;
-}
-
-const PianoKey: React.FC<PianoKeyProps> = ({ note, isBlack, scaleHighlighted, pentatonicHighlighted }) => {
-  let bgClass = '';
-
-  if (pentatonicHighlighted) {
-    bgClass = 'bg-green-500';
-  }
-  else if (scaleHighlighted) {
-    bgClass = 'bg-yellow-400';
-  } else {
-    bgClass = isBlack ? 'bg-black' : 'bg-white';
-  }
-
-  return (
-    <div
-      className={`relative flex items-center justify-center text-xs font-semibold rounded ${
-        isBlack
-          ? `${bgClass} text-white w-10 h-44 shadow-lg z-20`
-          : `${bgClass} text-black w-20 h-60 border border-gray-500 shadow-md`
-      }`}
-    >
-      <span className={`absolute ${isBlack ? 'text-xs bottom-2' : 'text-sm bottom-3'}`}>
-        {note}
-      </span>
-    </div>
-  );
-};
+import tailwindConfig from '@/../tailwind.config';
+import { Piano } from '@tonejs/piano';
+import React, { useEffect, useRef } from 'react';
+import resolveConfig from 'tailwindcss/resolveConfig';
+const fullConfig = resolveConfig(tailwindConfig);
 
 interface PianoKeyboardProps {
-  scaleHighlightedNotes?: string[];
-  pentatonicHighlightedNotes?: string[];
+  HighlightedNotesYellow?: string[]; // Notes to mark in yellow
+  HighlightedNotesGreen?: string[];  // Notes to mark in green
+  width?: number;          // Width of the canvas
+  height?: number;         // Height of the canvas
 }
 
 const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
-  scaleHighlightedNotes = [],
-  pentatonicHighlightedNotes = [],
+  HighlightedNotesYellow = [],
+  HighlightedNotesGreen = [],
+  width = 600,
+  height = 200,
 }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const pianoRef = useRef<Piano>(null);
+
   const whiteKeys = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-  const blackKeys = [
-    { note: 'C#', position: 'left-[3.8rem]' },
-    { note: 'D#', position: 'left-[8.9rem]' },
-    { note: 'F#', position: 'left-[18.8rem]' },
-    { note: 'G#', position: 'left-[23.68rem]' },
-    { note: 'A#', position: 'left-[28.75rem]' },
-  ];
+  const blackKeys = ['C#', 'D#', '', 'F#', 'G#', 'A#', ''];
+
+  const playNote = (note: string) => {
+    pianoRef.current?.keyDown({ note: `${note}4` });
+    setTimeout(() => {
+      pianoRef.current?.keyUp({ note: `${note}4` });
+    }, 500); // Adjust this value for the desired note duration in milliseconds
+  };
+
+  const drawKeyboard = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const whiteKeyWidth = width / whiteKeys.length;
+    const blackKeyWidth = whiteKeyWidth * 0.4;
+    const blackKeyHeight = height * 0.6;
+
+    ctx.clearRect(0, 0, width, height); // Clear the canvas before redrawing
+
+    // Draw white keys
+    whiteKeys.forEach((note, i) => {
+      const x = i * whiteKeyWidth;
+      ctx.fillStyle = HighlightedNotesGreen.includes(note)
+        ? fullConfig.theme.colors.green[500]
+        : HighlightedNotesYellow.includes(note)
+        ? fullConfig.theme.colors.yellow[400]
+        : 'white';
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 2;
+      ctx.fillRect(x, 0, whiteKeyWidth, height);
+      ctx.strokeRect(x, 0, whiteKeyWidth, height);
+
+      // Draw note label
+      ctx.fillStyle = 'black';
+      ctx.font = 'bold 14px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(note, x + whiteKeyWidth / 2, height - 10);
+
+      // Add click event listener for white keys
+      canvasRef.current?.addEventListener('click', (e) => {
+        const rect = canvasRef.current?.getBoundingClientRect();
+        if (rect) {
+          const clickX = e.clientX - rect.left;
+          if (clickX >= x && clickX <= x + whiteKeyWidth) {
+            playNote(note);
+          }
+        }
+      });
+    });
+
+    // Draw black keys
+    blackKeys.forEach((note, i) => {
+      if (note === '') return; // Skip where there is no black key
+      const x = (i + 1) * whiteKeyWidth - blackKeyWidth / 2;
+      ctx.fillStyle = HighlightedNotesGreen.includes(note)
+        ? fullConfig.theme.colors.green[500]
+        : HighlightedNotesYellow.includes(note)
+        ? fullConfig.theme.colors.yellow[400]
+        : 'black';
+      ctx.fillRect(x, 0, blackKeyWidth, blackKeyHeight);
+      ctx.strokeStyle = 'black';
+      ctx.strokeRect(x, 0, blackKeyWidth, blackKeyHeight);
+
+      // Draw note label
+      ctx.fillStyle = HighlightedNotesGreen.includes(note) || HighlightedNotesYellow.includes(note)
+        ? 'black'
+        : 'white';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 12px Arial';
+      ctx.fillText(note, x + blackKeyWidth / 2, blackKeyHeight - 10);
+
+      // Add click event listener for black keys
+      canvasRef.current?.addEventListener('click', (e) => {
+        const rect = canvasRef.current?.getBoundingClientRect();
+        if (rect) {
+          const clickX = e.clientX - rect.left;
+          const clickY = e.clientY - rect.top;
+          if (
+            clickX >= x &&
+            clickX <= x + blackKeyWidth &&
+            clickY >= 0 &&
+            clickY <= blackKeyHeight
+          ) {
+            playNote(note);
+          }
+        }
+      });
+    });
+  };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas resolution to make it resizable
+    canvas.width = width;
+    canvas.height = height;
+
+    pianoRef.current = new Piano({
+      velocities: 5,
+    }).toDestination();
+    pianoRef.current.load().then(() => {
+      // Draw the piano keyboard
+      drawKeyboard(ctx, canvas.width, canvas.height);
+    });
+  }, [HighlightedNotesYellow, HighlightedNotesGreen, width, height]);
 
   return (
-    <div className="relative flex">
-      {/* White keys */}
-      <div className="flex">
-        {whiteKeys.map((note) => (
-          <PianoKey
-            key={note}
-            note={note}
-            isBlack={false}
-            scaleHighlighted={scaleHighlightedNotes.includes(note)}
-            pentatonicHighlighted={pentatonicHighlightedNotes.includes(note)}
-          />
-        ))}
-      </div>
-      {/* Black keys */}
-      <div className="absolute w-full h-0 top-0">
-        {blackKeys.map(({ note, position }) => (
-          <div key={note} className={`absolute ${position}`}>
-            <PianoKey
-              note={note}
-              isBlack={true}
-              scaleHighlighted={scaleHighlightedNotes.includes(note)}
-              pentatonicHighlighted={pentatonicHighlightedNotes.includes(note)}
-            />
-          </div>
-        ))}
-      </div>
+    <div className="w-full h-auto">
+      <canvas ref={canvasRef} style={{ width: '100%', height: '100%' }} />
     </div>
   );
 };
