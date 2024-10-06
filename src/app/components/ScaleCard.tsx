@@ -17,7 +17,7 @@ const ScaleCard: React.FC<ScaleCardProps> = ({title, chords}) => {
            <div className="flow-root">
                 <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                     {chords.map((chord) => (
-                        <li className="py-3 sm:py-4">
+                        <li key={chord.chordName} className="py-3 sm:py-4">
                             <div className="flex items-center mx-4">
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
