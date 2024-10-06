@@ -9,6 +9,8 @@ interface PianoKeyboardProps {
   HighlightedNotesGreen?: string[];  // Notes to mark in green
   width?: number;          // Width of the canvas
   height?: number;         // Height of the canvas
+  enableOnClick?: boolean;
+  drawNoteNames?: boolean;
 }
 
 const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
@@ -16,6 +18,8 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
   HighlightedNotesGreen = [],
   width = 600,
   height = 200,
+  enableOnClick = false,
+  drawNoteNames = true,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pianoRef = useRef<Piano>(null);
@@ -51,10 +55,12 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
       ctx.strokeRect(x, 0, whiteKeyWidth, height);
 
       // Draw note label
-      ctx.fillStyle = 'black';
-      ctx.font = 'bold 14px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText(note, x + whiteKeyWidth / 2, height - 10);
+      if (drawNoteNames) {
+        ctx.fillStyle = 'black';
+        ctx.font = 'bold 14px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(note, x + whiteKeyWidth / 2, height - 10);
+      }
 
       // Add click event listener for white keys
       canvasRef.current?.addEventListener('click', (e) => {
@@ -82,12 +88,14 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
       ctx.strokeRect(x, 0, blackKeyWidth, blackKeyHeight);
 
       // Draw note label
-      ctx.fillStyle = HighlightedNotesGreen.includes(note) || HighlightedNotesYellow.includes(note)
-        ? 'black'
-        : 'white';
-      ctx.textAlign = 'center';
-      ctx.font = 'bold 12px Arial';
-      ctx.fillText(note, x + blackKeyWidth / 2, blackKeyHeight - 10);
+      if (drawNoteNames) {
+        ctx.fillStyle = HighlightedNotesGreen.includes(note) || HighlightedNotesYellow.includes(note)
+          ? 'black'
+          : 'white';
+        ctx.textAlign = 'center';
+        ctx.font = 'bold 12px Arial';
+        ctx.fillText(note, x + blackKeyWidth / 2, blackKeyHeight - 10);
+      }
 
       // Add click event listener for black keys
       canvasRef.current?.addEventListener('click', (e) => {
@@ -119,13 +127,18 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
     canvas.width = width;
     canvas.height = height;
 
-    pianoRef.current = new Piano({
-      velocities: 5,
-    }).toDestination();
-    pianoRef.current.load().then(() => {
-      // Draw the piano keyboard
+    if (enableOnClick) {
+      pianoRef.current = new Piano({
+        velocities: 5,
+      }).toDestination();
+      pianoRef.current.load().then(() => {
+        // Draw the piano keyboard
+        drawKeyboard(ctx, canvas.width, canvas.height);
+      });
+    }
+    else {
       drawKeyboard(ctx, canvas.width, canvas.height);
-    });
+    }
   }, [HighlightedNotesYellow, HighlightedNotesGreen, width, height]);
 
   return (

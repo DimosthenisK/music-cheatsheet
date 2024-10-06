@@ -1,6 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import PianoKeyboard from "../components/PianoKeyboard";
+import ScaleCard from "../components/ScaleCard";
 import { theory } from "../lib";
 
 export default function Index() {
@@ -16,29 +17,15 @@ export default function Index() {
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center">{scale.name} Scale Overview</h1>
         <div className="w-full overflow-x-auto md:overflow-x-visible flex justify-center">
           <div className="max-w-full">
-            <PianoKeyboard HighlightedNotesYellow={scale.notes} HighlightedNotesGreen={scale.pentatonicNotes} />
+            <PianoKeyboard HighlightedNotesYellow={scale.notes} HighlightedNotesGreen={scale.pentatonicNotes} enableOnClick={true} />
           </div>
         </div>
         <div className="w-full flex flex-col md:flex-row gap-6 md:gap-8 max-w-screen-md mx-auto">
           <div className="w-full">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2 md:mb-4">Chords</h2>
-            <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
-              {chords.map((chord) => (
-                <li key={chord.chordName} className={`${chord.isDominant ? 'text-red-500 font-semibold' : ''}`}>
-                  {chord.chordName}
-                </li>
-              ))}
-            </ul>
+            <ScaleCard title="Chords" chords={chords} />
           </div>
           <div className="w-full">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2 md:mb-4">Relative Chords</h2>
-            <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
-              {relativeChords.map((chord) => (
-                <li key={chord.chordName} className={`${chord.isDominant ? 'text-red-500 font-semibold' : ''}`}>
-                  {chord.chordName}
-                </li>
-              ))}
-            </ul>
+            <ScaleCard title="Relative Scale Chords" chords={relativeChords} />
           </div>
         </div>
       </main>
