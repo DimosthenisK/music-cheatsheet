@@ -3,11 +3,12 @@ import { note, toRoman } from '../lib';
 import PianoKeyboard from './PianoKeyboard';
 
 interface ScaleCardProps {
-  title: string;
-  chords: Array<{ chordName: string; isDominant: boolean; chordNotes: note[] }>;
+  title?: string;
+  chords?: Array<{ chordName: string; isPrevailing: boolean; chordNotes: note[] }>;
+  showPrevailing?: boolean;
 }
 
-const ScaleCard: React.FC<ScaleCardProps> = ({ title, chords }) => {
+const ScaleCard: React.FC<ScaleCardProps> = ({ title = "Chords", chords = [], showPrevailing = true }) => {
   return (
     <div className="w-full p-2 bg-background border border-gray-600 rounded-lg shadow sm:p-2 ">
       <div className="flex items-center justify-between p-6">
@@ -28,7 +29,7 @@ const ScaleCard: React.FC<ScaleCardProps> = ({ title, chords }) => {
                     <span className="text-sm text-gray-500">{toRoman(index + 1)}.</span> {chord.chordName}
                   </p>
                   <p className="text-sm truncate text-gray-400">
-                    {chord.isDominant ? 'Dominant' : 'Non-Dominant'}
+                    {showPrevailing && chord.isPrevailing && 'Prevailing'}
                   </p>
                 </div>
                 <div className="inline-flex items-center text-base font-semibold text-white max-w-36">
