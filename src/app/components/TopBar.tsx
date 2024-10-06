@@ -1,10 +1,11 @@
 'use client';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTitle } from '../contexts/TitleContext';
 
 export default function TopBar() {
   const router = useRouter();
+  const pathName = usePathname();
   const { title } = useTitle();
 
   return (
@@ -14,16 +15,19 @@ export default function TopBar() {
           onClick={() => router.back()}
           className="mr-4 text-green-500 hover:text-green-600 transition duration-300 ease-in-out"
         >
-          ← Back
+          ←
         </button>
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">{title}</h1>
       </div>
-      <Link
-        href="/"
-        className="text-yellow-400 hover:text-yellow-500 font-bold transition duration-300 ease-in-out"
-      >
-        Home
-      </Link>
+      
+      {pathName !== '/' && (
+        <Link
+          href="/"
+          className="text-yellow-400 hover:text-yellow-500 font-bold transition duration-300 ease-in-out"
+        >
+          🏠︎
+        </Link>
+      )}
     </div>
   );
 }
