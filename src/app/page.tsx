@@ -1,10 +1,20 @@
+"use client";
+
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { useTitle } from './contexts/TitleContext';
 import { notes } from './lib';
 
 export default function Home() {
+  const { setTitle } = useTitle();
+
+  useEffect(() => {
+    setTitle(`Music Cheatsheet`);
+  }, [setTitle]);
+  
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+    <div className="grid grid-rows-[1fr] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-8 items-center sm:items-start">
         <h1 className="text-6xl font-bold">Music Theory Cheatsheet</h1>
         <div className="flex flex-row gap-8 w-full">
           <div className="flex flex-col gap-4 w-1/2">
@@ -37,20 +47,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <p className="text-sm text-gray-600">
-          Made by Dimosthenis Kalaitzis, see{' '}
-          <a
-            href="https://github.com/DimosthenisK/music-cheatsheet"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 hover:text-blue-600 underline"
-          >
-            source
-          </a>{' '}
-          ♥
-        </p>
-      </footer>
     </div>
   );
 }

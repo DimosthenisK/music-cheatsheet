@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import TopBar from './components/TopBar';
+import { TitleProvider } from './contexts/TitleContext';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -25,11 +27,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <TitleProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
+        >
+          <TopBar />
+          <div className="flex-grow">
+            {children}
+          </div>
+          <footer className="py-4 text-center">
+            <p className="text-sm text-gray-600">
+              Made by Dimosthenis Kalaitzis, see{' '}
+              <a
+                href="https://github.com/DimosthenisK/music-cheatsheet"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-600 underline"
+              >
+                source
+              </a>{' '}
+              ♥
+            </p>
+          </footer>
+        </body>
+      </TitleProvider>
     </html>
   );
 }
