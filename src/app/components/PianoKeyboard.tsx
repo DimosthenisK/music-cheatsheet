@@ -133,16 +133,14 @@ const PianoKeyboard: React.FC<PianoKeyboardProps> = ({
     canvas.width = width;
     canvas.height = height;
 
+    drawKeyboard(ctx, canvas.width, canvas.height);
     if (enableOnClick) {
       pianoRef.current = new Piano({
         velocities: 5,
       }).toDestination();
       pianoRef.current.load().then(() => {
-        // Draw the piano keyboard
-        drawKeyboard(ctx, canvas.width, canvas.height);
+        console.log("Piano loaded")
       });
-    } else {
-      drawKeyboard(ctx, canvas.width, canvas.height);
     }
   }, [HighlightedNotesYellow, HighlightedNotesGreen, width, height]);
 
