@@ -4,7 +4,7 @@ A quick cheatsheet covering the basics for music theory, including major and min
 
 ## Demo
 
-See on [vercel](https://music-cheatsheet-web.vercel.app/)
+See on [vercel](https://music-cheatsheet.vercel.app/)
 
 ## Development
 
