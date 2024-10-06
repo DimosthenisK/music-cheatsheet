@@ -9,7 +9,7 @@ interface ScaleCardProps {
 
 const ScaleCard: React.FC<ScaleCardProps> = ({ title, chords }) => {
   return (
-    <div className="w-full p-2 bg-white border border-gray-200 rounded-lg shadow sm:p-2 dark:bg-gray-600 dark:border-gray-700">
+    <div className="w-full p-2 bg-background border border-gray-600 rounded-lg shadow sm:p-2 ">
       <div className="flex items-center justify-between p-6">
         <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
           {title}
