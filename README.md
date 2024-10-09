@@ -1,6 +1,6 @@
 # Music Theory Cheatsheet
 
-A quick cheatsheet covering the basics for music theory, including major and minor scales, chords, and more.
+A quick react webapp with a cheatsheet covering the basics for music theory, including major and minor scales, chords, and more.
 
 ## Demo
 
